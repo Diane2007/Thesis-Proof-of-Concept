@@ -1,13 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEditor;
 
 public class InputManager : MonoBehaviour
 {
     Camera mainCamera;
+    
     //this stores the name player clicks on
     string rayHitName;
     RaycastHit2D rayHit;
@@ -26,13 +24,15 @@ public class InputManager : MonoBehaviour
     public GameObject legitNews;
     public GameObject protocols;
 
-    [Space(10)] public GameObject closeButton;
-    public GameObject protocolButton;
-    public GameObject newspaperButton;
-    public GameObject officialButton;
-
     [Header("Text Stuff")] public GameObject specialProtocol;
     public GameObject newsTitle, newsSubtitle, newsText, newsName;
+    
+    //I know it's crazy man but here are the handbook buttons
+    [Header("Handbook Buttons")] public GameObject protocolButtonLeft;
+    public GameObject newspaperButtonLeft, officialButtonLeft;
+    [Space(10)] public GameObject newspaperButtonRight;
+    public GameObject officialButtonRight;
+    [Space(10)] public GameObject closeButton;
     
     //set main camera before game starts
     void Awake()
@@ -96,8 +96,19 @@ public class InputManager : MonoBehaviour
             specialProtocol.SetActive(true);
             OnOffNewspaperText(false);
             
-            //show the close button!!
+            //show the handbook buttons!!
             closeButton.SetActive(true);
+            protocolButtonLeft.SetActive(true);
+            newspaperButtonRight.SetActive(true);
+            officialButtonRight.SetActive(true);
+        }
+
+        //if player clicks on the brief, bring it to front
+        if (rayHitName == smallBrief.name)
+        {
+            SpriteRenderer rend = rayHit.collider.gameObject.GetComponent<SpriteRenderer>();
+            rend.sortingOrder = 2;
+            smallBrief.GetComponent<SpriteRenderer>().sortingOrder = rend.sortingOrder;
         }
     }
 
@@ -113,13 +124,17 @@ public class InputManager : MonoBehaviour
     //close all open document stuff
     public void CloseAll()
     {
+        //close all the buttons
         closeButton.SetActive(false);
-        protocolButton.SetActive(false);
-        newspaperButton.SetActive(false);
-        officialButton.SetActive(false);
+        protocolButtonLeft.SetActive(false);
+        newspaperButtonLeft.SetActive(false);
+        newspaperButtonRight.SetActive(false);
+        officialButtonLeft.SetActive(false);
+        officialButtonRight.SetActive(false);
+        
+        //close all handbook content
         govList.SetActive(false);
         legitNews.SetActive(false);
-        officialButton.SetActive(false);
         protocols.SetActive(false);
         specialProtocol.SetActive(false);
     }
