@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     }
 
     int _susLv;
+    public TextMeshProUGUI specialProtocolText;
 
     //calculate player's sus level
     public int SusLv
@@ -38,7 +39,7 @@ public class GameManager : MonoBehaviour
         //these things shouldn't appear at game start
         InputManager.instance.CloseAll();
         //and don't show the special protocol text
-        
+        specialProtocolText.text = "";
     }
 
     /*
