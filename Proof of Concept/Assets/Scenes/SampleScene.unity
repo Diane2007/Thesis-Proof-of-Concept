@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 49597203}
   m_Layer: 0
   m_Name: handbookButtons
-  m_TagString: Untagged
+  m_TagString: Drag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,6 +152,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1439636885}
   - {fileID: 2047792182}
   - {fileID: 1375481211}
   - {fileID: 1134197850}
@@ -551,7 +552,7 @@ GameObject:
   - component: {fileID: 287899319}
   - component: {fileID: 287899320}
   - component: {fileID: 287899321}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: protocols
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1272,8 +1273,8 @@ GameObject:
   - component: {fileID: 530850843}
   - component: {fileID: 530850844}
   m_Layer: 0
-  m_Name: brief_small
-  m_TagString: Untagged
+  m_Name: brief
+  m_TagString: Drag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2039,9 +2040,9 @@ GameObject:
   - component: {fileID: 996246290}
   - component: {fileID: 996246291}
   - component: {fileID: 996246292}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: legitNewspapers
-  m_TagString: Untagged
+  m_TagString: Drag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2169,7 +2170,7 @@ GameObject:
   - component: {fileID: 1101695135}
   - component: {fileID: 1101695136}
   - component: {fileID: 1101695137}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: govOfficialList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2458,7 +2459,7 @@ GameObject:
   - component: {fileID: 1439636885}
   - component: {fileID: 1439636884}
   - component: {fileID: 1439636886}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: closeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2530,7 +2531,7 @@ Transform:
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 2050788421}
+  m_Father: {fileID: 49597203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &1439636886
 CircleCollider2D:
@@ -2580,7 +2581,7 @@ GameObject:
   - component: {fileID: 1731327854}
   m_Layer: 0
   m_Name: tea
-  m_TagString: Untagged
+  m_TagString: Drag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3078,7 +3079,7 @@ GameObject:
   - component: {fileID: 2050788421}
   m_Layer: 0
   m_Name: OpenDocuments
-  m_TagString: Untagged
+  m_TagString: Drag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3096,7 +3097,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1439636885}
   - {fileID: 1101695135}
   - {fileID: 996246290}
   - {fileID: 287899319}

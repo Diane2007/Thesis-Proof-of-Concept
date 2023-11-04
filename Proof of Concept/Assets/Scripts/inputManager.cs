@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEditor;
@@ -37,6 +38,9 @@ public class InputManager : MonoBehaviour
     //colliders for teacup and phone
     Collider2D teacupCol, phoneCol;
     
+    //sprite renderer
+    SpriteRenderer rend;
+    
     //set main camera before game starts
     void Awake()
     {
@@ -58,6 +62,12 @@ public class InputManager : MonoBehaviour
         //init variables
         teacupCol = teaCup.GetComponent<Collider2D>();
         phoneCol = phone.GetComponent<Collider2D>();
+    }
+    
+    //drag teacup, handbook, and brief around
+    public void OnMouseDrag()
+    {
+        
     }
 
     //check we are clicking a game object
@@ -95,7 +105,6 @@ public class InputManager : MonoBehaviour
         {
             CloseAll();
             ResetDesk();
-            
         }
 
         //if player clicks on the closed binder
@@ -119,7 +128,9 @@ public class InputManager : MonoBehaviour
         //if player clicks on the brief, bring it to front
         if (rayHitName == smallBrief.name)
         {
-            SpriteRenderer rend = rayHit.collider.gameObject.GetComponent<SpriteRenderer>();
+            //get the sprite renderer
+            rend = rayHit.collider.gameObject.GetComponent<SpriteRenderer>();
+            
             rend.sortingOrder = 2;
             smallBrief.GetComponent<SpriteRenderer>().sortingOrder = rend.sortingOrder;
         }
@@ -311,5 +322,10 @@ public class InputManager : MonoBehaviour
         closedBinder.SetActive(true);
         //show newspaper content
         ShowNewspaperText(true);
+        
+        //reset the sorting order of the brief
+        rend = smallBrief.GetComponent<SpriteRenderer>();
+        rend.sortingOrder = 0;
+        smallBrief.GetComponent<SpriteRenderer>().sortingOrder = rend.sortingOrder;
     }
 }

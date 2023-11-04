@@ -20,17 +20,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    int _susLv;
+    int susLv;
     public TextMeshProUGUI specialProtocolText;
 
     //calculate player's sus level
     public int SusLv
     {
-        get { return _susLv; }
+        get { return susLv; }
         set
         {
-            _susLv = value;
-            _susLv++;
+            susLv = value;
+            susLv++;
         }
     }
     
