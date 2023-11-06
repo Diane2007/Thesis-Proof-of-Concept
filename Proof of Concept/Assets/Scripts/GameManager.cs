@@ -42,26 +42,4 @@ public class GameManager : MonoBehaviour
         specialProtocolText.text = "";
     }
 
-    /*
-    public void OpenCloseDocuments()
-    {
-        //if player clicks on the close button
-        //close all open documents
-        if (InputManager.instance.rayHit.collider.gameObject.name == closeButton.name)
-        {
-            Debug.Log("Now hitting closeButton!");
-            CloseAll();
-        }
-        //if player clicks on the closed handbook
-        //open the protocol page and hide the closed binder
-        else if (InputManager.instance.rayHit.collider.gameObject.name == closedBinder.name)
-        {
-            Debug.Log("Now hitting closedBinder!");
-            protocols.SetActive(true);
-            closedBinder.SetActive(false);
-        }
-    }
-    */
-
-
 }

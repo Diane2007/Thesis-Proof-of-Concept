@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour
     
     //this stores the name player clicks on
     string rayHitName;
-    RaycastHit2D rayHit;
+    RaycastHit2D rayHit, rayDrag;
 
     public static InputManager instance;
 
@@ -63,12 +63,6 @@ public class InputManager : MonoBehaviour
         teacupCol = teaCup.GetComponent<Collider2D>();
         phoneCol = phone.GetComponent<Collider2D>();
     }
-    
-    //drag teacup, handbook, and brief around
-    public void OnMouseDrag()
-    {
-        
-    }
 
     //check we are clicking a game object
     public void OnClick(InputAction.CallbackContext docClick)
@@ -112,7 +106,7 @@ public class InputManager : MonoBehaviour
         if (rayHitName == closedBinder.name)
         {
             //turn off the newspaper text first
-            ShowNewspaperText(false);
+            //ShowNewspaperText(false);
             
             //turn off the collider for teacup and phone
             //because we don't want to click on them right now
@@ -131,7 +125,7 @@ public class InputManager : MonoBehaviour
             //get the sprite renderer
             rend = rayHit.collider.gameObject.GetComponent<SpriteRenderer>();
             
-            rend.sortingOrder = 2;
+            rend.sortingOrder = 6;
             smallBrief.GetComponent<SpriteRenderer>().sortingOrder = rend.sortingOrder;
         }
 
@@ -325,7 +319,10 @@ public class InputManager : MonoBehaviour
         
         //reset the sorting order of the brief
         rend = smallBrief.GetComponent<SpriteRenderer>();
-        rend.sortingOrder = 0;
+        rend.sortingOrder = 5;
         smallBrief.GetComponent<SpriteRenderer>().sortingOrder = rend.sortingOrder;
     }
+    
+    
+    
 }
