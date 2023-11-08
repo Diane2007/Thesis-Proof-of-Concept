@@ -27,6 +27,9 @@ public class InputManager : MonoBehaviour
 
     [Header("Text Stuff")] public GameObject specialProtocol;
     public GameObject newsTitle, newsSubtitle, newsText, newsName;
+
+    [Header("Brief Stuff")] public GameObject isViolationChoice;
+    public GameObject protocolViolation1, protocolViolation2, protocolViolation3;
     
     //I know it's crazy man but here are the handbook buttons
     [Header("Handbook Buttons")] public GameObject protocolButtonLeft;
@@ -106,7 +109,7 @@ public class InputManager : MonoBehaviour
         if (rayHitName == closedBinder.name)
         {
             //turn off the newspaper text first
-            //ShowNewspaperText(false);
+            ShowNewspaperText(false);
             
             //turn off the collider for teacup and phone
             //because we don't want to click on them right now
