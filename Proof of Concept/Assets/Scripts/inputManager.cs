@@ -177,7 +177,7 @@ public class InputManager : MonoBehaviour
     }
 
     //are we going to show all the newspaper text? or disable all of them?
-    void ShowNewspaperText(bool state)
+    public void ShowNewspaperText(bool state)
     {
         newsSubtitle.SetActive(state);
         newsText.SetActive(state);

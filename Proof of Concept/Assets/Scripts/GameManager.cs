@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     
     //connect the dropdown menus here
     [Header("Dropdown Menus")] public TMP_Dropdown boolDropdown;
-    public TMP_Dropdown protocolDropdown;
+    public TMP_Dropdown protocolDropdown1, protocolDropdown2, protocolDropdown3;
 
     void Awake()
     {
@@ -203,53 +203,13 @@ public class GameManager : MonoBehaviour
         newsText.text = string.Empty;
     }
 
-    //player's first choice: is there protocol violation?
-    public void YesOrNoDropdown()
-    {
-        int index = boolDropdown.value;
-        switch (index)
-        {
-            case 0: //text is no
-                choice_YesNo = false;
-                break;
-            case 1: //text is yes
-                choice_YesNo = true;
-                break;
-        }
-    }
-    
     //TODO: think about when to clear this list!! when to compare this list!!
     //player's multiple choice: if there is violation, what protocol(s) does it violate?
-    
-    public void ViolationDropdown()
-    {
-        int index = protocolDropdown.value;
-        switch (index)
-        {
-            case 0:     //default: no choice
-                choice_Violation.Add(0);
-                Debug.Log("Player chooses protocol " + choice_Violation[0] + "for the violation!");
-                break;
-            case 1:     //protocol 1
-                choice_Violation.Add(1);
-                break;
-            case 2:     //protocol 2
-                choice_Violation.Add(2);
-                break;
-            case 3:     //protocol 3
-                choice_Violation.Add(3);
-                break;
-            case 4:     //special protocol (4)
-                choice_Violation.Add(4);
-                break;
-        }
-    }
 
-    public void DropdownMenuControl()
+    public void YesNoDropdown()
     {
         int boolChoice = boolDropdown.value;
-        int protocolChoice = protocolDropdown.value;
-
+        //player choice: is there a violation?
         switch (boolChoice)
         {
             case 0: //text is no
@@ -262,7 +222,16 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        switch (protocolChoice)
+    }
+    
+    public void ProtocolMenuControl()
+    {
+        int protocolChoice1 = protocolDropdown1.value;
+        int protocolChoice2 = protocolDropdown2.value;
+        int protocolChoice3 = protocolDropdown3.value;
+        
+        //player choice: what protocols did it violate?
+        switch (protocolChoice1)
         {
             case 0: //default: no selection
                 choice_Violation.Add(0);
@@ -280,7 +249,45 @@ public class GameManager : MonoBehaviour
                 choice_Violation.Add(4);
                 break;
         }
-        Debug.Log("Player chooses protocol number: " + protocolChoice);
+        
+        switch (protocolChoice2)
+        {
+            case 0: //default: no selection
+                choice_Violation.Add(0);
+                break;
+            case 1:
+                choice_Violation.Add(1);
+                break;
+            case 2:
+                choice_Violation.Add(2);
+                break;
+            case 3:
+                choice_Violation.Add(3);
+                break;
+            case 4:
+                choice_Violation.Add(4);
+                break;
+        }
+        
+        switch (protocolChoice3)
+        {
+            case 0: //default: no selection
+                choice_Violation.Add(0);
+                break;
+            case 1:
+                choice_Violation.Add(1);
+                break;
+            case 2:
+                choice_Violation.Add(2);
+                break;
+            case 3:
+                choice_Violation.Add(3);
+                break;
+            case 4:
+                choice_Violation.Add(4);
+                break;
+        }
+
     }
 
     public void JudgeButton()
@@ -292,7 +299,7 @@ public class GameManager : MonoBehaviour
         {
             playerAnswerDebug += choice_Violation[i].ToString();
         }
-        Debug.Log("Is violation?" + choice_YesNo + " Violation code is: " + playerAnswerDebug);
+        Debug.Log("Player choice -- Is violation? " + choice_YesNo + " Violation code is: " + playerAnswerDebug);
         
 
         //if the yes no player choice matches our answer
@@ -300,14 +307,22 @@ public class GameManager : MonoBehaviour
         if (answer_YesNo == choice_YesNo)
         {
             //if the protocol numbers are correct, regardless the order
+            
+            
             if (choice_Violation.Intersect(answer_Violation).Any())
             {
                 CurrentNewsFile++;  //load next news
             }
             else
             {
-                //TODO: make a punishment sheet
                 Debug.Log("You make a boo-boo!");
+                
+                //turn off the newspaper text
+                InputManager.instance.ShowNewspaperText(false);
+                
+                //and show the self criticism page
+                InputManager.instance.selfCriticism.SetActive(true);
+
             }
         }
         //if player's yes no already doesn't match
