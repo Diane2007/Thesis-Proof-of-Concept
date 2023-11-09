@@ -29,7 +29,7 @@ public class InputManager : MonoBehaviour
     public GameObject newsTitle, newsSubtitle, newsText, newsName;
 
     [Header("Brief Stuff")] public GameObject isViolationChoice;
-    public GameObject protocolViolation1, protocolViolation2, protocolViolation3;
+    public GameObject protocolViolation1, protocolViolation2, protocolViolation3, judgeButton;
     
     //I know it's crazy man but here are the handbook buttons
     [Header("Handbook Buttons")] public GameObject protocolButtonLeft;
@@ -37,6 +37,9 @@ public class InputManager : MonoBehaviour
     [Space(10)] public GameObject newspaperButtonRight;
     public GameObject officialButtonRight;
     [Space(10)] public GameObject closeButton;
+    
+    //stuff when player needs to apologize
+    [Header("Apology Stuff")] public GameObject selfCriticism;
     
     //colliders for teacup and phone
     Collider2D teacupCol, phoneCol;
@@ -65,6 +68,9 @@ public class InputManager : MonoBehaviour
         //init variables
         teacupCol = teaCup.GetComponent<Collider2D>();
         phoneCol = phone.GetComponent<Collider2D>();
+        
+        //don't show self-criticism
+        selfCriticism.SetActive(false);
     }
 
     //check we are clicking a game object
@@ -130,6 +136,13 @@ public class InputManager : MonoBehaviour
             
             rend.sortingOrder = 6;
             smallBrief.GetComponent<SpriteRenderer>().sortingOrder = rend.sortingOrder;
+            
+            //when brief is at the front, show brief ui stuff
+            isViolationChoice.SetActive(true);
+            protocolViolation1.SetActive(true);
+            protocolViolation2.SetActive(true);
+            protocolViolation3.SetActive(true);
+            judgeButton.SetActive(true);
         }
 
         //if player clicks on the newspaper list button
@@ -188,6 +201,13 @@ public class InputManager : MonoBehaviour
         legitNews.SetActive(false);
         protocols.SetActive(false);
         specialProtocol.SetActive(false);
+        
+        //don't show the dropdown menus and stuff on brief
+        isViolationChoice.SetActive(false);
+        protocolViolation1.SetActive(false);
+        protocolViolation2.SetActive(false);
+        protocolViolation3.SetActive(false);
+        judgeButton.SetActive(false);
     }
     
     void ShowProtocol(bool state)
@@ -324,6 +344,13 @@ public class InputManager : MonoBehaviour
         rend = smallBrief.GetComponent<SpriteRenderer>();
         rend.sortingOrder = 5;
         smallBrief.GetComponent<SpriteRenderer>().sortingOrder = rend.sortingOrder;
+        
+        //turn off the brief stuff
+        isViolationChoice.SetActive(false);
+        protocolViolation1.SetActive(false);
+        protocolViolation2.SetActive(false);
+        protocolViolation3.SetActive(false);
+        judgeButton.SetActive(false);
     }
     
     
