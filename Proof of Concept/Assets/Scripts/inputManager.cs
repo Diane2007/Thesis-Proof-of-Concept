@@ -37,10 +37,7 @@ public class InputManager : MonoBehaviour
     [Space(10)] public GameObject newspaperButtonRight;
     public GameObject officialButtonRight;
     [Space(10)] public GameObject closeButton;
-    
-    //stuff when player needs to apologize
-    [Header("Apology Stuff")] public GameObject selfCriticism;
-    
+
     //colliders for teacup and phone
     Collider2D teacupCol, phoneCol, binderCol;
     

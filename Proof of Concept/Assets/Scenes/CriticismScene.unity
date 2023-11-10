@@ -1427,6 +1427,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   warningText: {fileID: 387600994}
+  copyText: {fileID: 534999190}
+  inputText: {fileID: 888635594}
 --- !u!4 &2122191057
 Transform:
   m_ObjectHideFlags: 0

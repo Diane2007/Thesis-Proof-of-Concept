@@ -38,8 +38,10 @@ public class GameManager : MonoBehaviour
 
     //Self-Criticism related stuff
     [Header("Self-Criticism Page")] public string replaceText;
-
-    
+    //if player copies exactly as is, these bools are true each time
+    public bool apologyCorrect1, apologyCorrect2, apologyCorrect0;
+    //check if player has made a mistake
+    bool wrongAnswer;
     
     void Awake()
     {
@@ -345,6 +347,9 @@ public class GameManager : MonoBehaviour
 
     void SelfCriticism()
     {
+        //indicate player has made a wrong answer
+        wrongAnswer = true;
+        
         //check what protocol related mistakes player made
         PlayerMistake();
         
