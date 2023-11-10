@@ -317,9 +317,7 @@ public class GameManager : MonoBehaviour
         if (answer_YesNo == choice_YesNo)
         {
             //if the protocol numbers are correct, regardless the order
-            
-            
-            if (choice_Violation.Intersect(answer_Violation).Any())
+            if (choice_Violation.OrderBy(x => x).SequenceEqual(answer_Violation.OrderBy(x => x)))
             {
                 CurrentNewsFile++;  //load next news
             }
@@ -333,9 +331,10 @@ public class GameManager : MonoBehaviour
         //if player's yes no already doesn't match
         else
         {
+            Debug.Log("You made a boo-boo!");
             SelfCriticism();
-            Debug.Log("You make a boo-boo!");
         }
+        
         
     }
 
