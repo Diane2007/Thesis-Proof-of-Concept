@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour
     [Header("Default Desk Objects")] public GameObject teaCup;
     public GameObject smallBrief;
     public GameObject closedBinder;
-    public GameObject phone;
+    //public GameObject phone;
 
     [Header("Show only after clicked")]
     //only when the closed binder is clicked on, the giant document opens
@@ -67,11 +67,11 @@ public class InputManager : MonoBehaviour
     {
         //init variables
         teacupCol = teaCup.GetComponent<Collider2D>();
-        phoneCol = phone.GetComponent<Collider2D>();
+        //phoneCol = phone.GetComponent<Collider2D>();
         binderCol = closedBinder.GetComponent<Collider2D>();
         
         //don't show self-criticism
-        selfCriticism.SetActive(false);
+        //selfCriticism.SetActive(false);
     }
 
     //check we are clicking a game object
@@ -121,7 +121,7 @@ public class InputManager : MonoBehaviour
             //turn off the collider for teacup and phone
             //because we don't want to click on them right now
             teacupCol.enabled = false;
-            phoneCol.enabled = false;
+            //phoneCol.enabled = false;
             
             //turn ON the collider for small binder
             //binderCol.enabled = true;
@@ -336,7 +336,7 @@ public class InputManager : MonoBehaviour
     {
         //turn on the teacup and phone colliders
         teacupCol.enabled = true;
-        phoneCol.enabled = true;
+        //phoneCol.enabled = true;
         
         //turn on the small closed binder
         closedBinder.SetActive(true);

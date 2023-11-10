@@ -8,4 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/CriticismScene.unity
+    guid: ec857ec01d0f0497f9ed11e6b85a7578
+  - enabled: 1
+    path: Assets/Scenes/PhoneScene.unity
+    guid: 298d9a901d05c4f2a9eef27866ec7edc
+  - enabled: 1
+    path: Assets/Scenes/EndScene.unity
+    guid: 554759119a8d2420aaca2492c99c1abe
   m_configObjects: {}

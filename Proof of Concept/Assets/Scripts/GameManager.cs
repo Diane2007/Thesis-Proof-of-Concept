@@ -4,13 +4,15 @@ using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using UnityEngine.SceneManagement;
 
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     int newsCount;
-    
+
     //connect all text files
     public TextMeshProUGUI newsTitle, newsSubtitle, newspaper, newsText;
 
@@ -34,6 +36,11 @@ public class GameManager : MonoBehaviour
     [Header("Dropdown Menus")] public TMP_Dropdown boolDropdown;
     public TMP_Dropdown protocolDropdown1, protocolDropdown2, protocolDropdown3;
 
+    //Self-Criticism related stuff
+    [Header("Self-Criticism Page")] public string replaceText;
+
+    
+    
     void Awake()
     {
         if (!instance)
@@ -99,6 +106,9 @@ public class GameManager : MonoBehaviour
                 //reset player answer's bool and list
                 choice_Violation.Clear();
                 choice_YesNo = false;
+                
+                //reset the replaceText to empty
+                replaceText = "";
                 
                 //load next news
                 LoadNews();
@@ -329,14 +339,83 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public void ChangeScene(int sceneNum)
+    {
+        SceneManager.LoadScene(sceneNum);
+    }
+
     void SelfCriticism()
     {
-        //turn off the newspaper text
-        InputManager.instance.ShowNewspaperText(false);
-                
-        //and show the self criticism page
-        InputManager.instance.selfCriticism.SetActive(true);
+        //check what protocol related mistakes player made
+        PlayerMistake();
+        
+        //move to the criticism scene (sceneNum = 1)
+        ChangeScene(1);
+
     }
-    
+
+    void PlayerMistake()
+    {
+                
+        //if there is news violation and player thinks there aren't
+        if (answer_YesNo && choice_YesNo == false)
+        {
+            replaceText += "The news article contains violations.\n";
+        }
+        //if there is no news violation and player thinks there is
+        else if (!answer_YesNo && choice_YesNo)
+        {
+            replaceText += "The news article does not contain violations.\n";
+        }
+        //check if player missed any protocol violation
+        for (int i = 0; i < answer_Violation.Count; i++)
+        {
+            if (MissingProtocol(i))
+            {
+                replaceText += "Protocol " + i + " was violated. ";
+                //stop the code from repeating the line above
+                break;
+            } 
+        }
+
+        //check if player thought a protocol is violated but it didn't
+        for (int i = 0; i < choice_Violation.Count; i++)
+        {
+            if (WrongProtocol(i))
+            {
+                replaceText += "Protocol " + i + " was not violated. ";
+                //don't repeat the line above
+                break;
+            }
+        }
+        
+    }
+
+    bool MissingProtocol(int chosenProtocol)
+    {
+        //player didn't identify protocol breach
+        if (!choice_Violation.Contains(chosenProtocol) && answer_Violation.Contains(chosenProtocol))
+        {
+            return true;
+        }
+        //player did identify protocol breach
+        else if (choice_Violation.Contains(chosenProtocol) && answer_Violation.Contains(chosenProtocol))
+        {
+            return false;
+        }
+
+        return false;
+    }
+
+    bool WrongProtocol(int chosenProtocol)
+    {
+        //player chose a wrong protocol
+        if (choice_Violation.Contains(chosenProtocol) && !answer_Violation.Contains(chosenProtocol))
+        {
+            return true;
+        }
+
+        return false;
+    }
 
 }
