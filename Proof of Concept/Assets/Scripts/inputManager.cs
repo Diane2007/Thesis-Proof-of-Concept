@@ -42,7 +42,7 @@ public class InputManager : MonoBehaviour
     [Header("Apology Stuff")] public GameObject selfCriticism;
     
     //colliders for teacup and phone
-    Collider2D teacupCol, phoneCol;
+    Collider2D teacupCol, phoneCol, binderCol;
     
     //sprite renderer
     SpriteRenderer rend;
@@ -68,6 +68,7 @@ public class InputManager : MonoBehaviour
         //init variables
         teacupCol = teaCup.GetComponent<Collider2D>();
         phoneCol = phone.GetComponent<Collider2D>();
+        binderCol = closedBinder.GetComponent<Collider2D>();
         
         //don't show self-criticism
         selfCriticism.SetActive(false);
@@ -121,6 +122,9 @@ public class InputManager : MonoBehaviour
             //because we don't want to click on them right now
             teacupCol.enabled = false;
             phoneCol.enabled = false;
+            
+            //turn ON the collider for small binder
+            //binderCol.enabled = true;
 
             //turn off the binder and show the protocol page
             closedBinder.SetActive(false);
@@ -136,6 +140,10 @@ public class InputManager : MonoBehaviour
             
             rend.sortingOrder = 6;
             smallBrief.GetComponent<SpriteRenderer>().sortingOrder = rend.sortingOrder;
+            
+            //when the brief is above closed binder, we assume player only wants to look at the brief
+            //so we disable the collider on closed binder just so they don't accidentally open the binder
+            //binderCol.enabled = false;
             
             //when brief is at the front, show brief ui stuff
             isViolationChoice.SetActive(true);
@@ -202,12 +210,7 @@ public class InputManager : MonoBehaviour
         protocols.SetActive(false);
         specialProtocol.SetActive(false);
         
-        //don't show the dropdown menus and stuff on brief
-        isViolationChoice.SetActive(false);
-        protocolViolation1.SetActive(false);
-        protocolViolation2.SetActive(false);
-        protocolViolation3.SetActive(false);
-        judgeButton.SetActive(false);
+
     }
     
     void ShowProtocol(bool state)
@@ -345,14 +348,9 @@ public class InputManager : MonoBehaviour
         rend.sortingOrder = 5;
         smallBrief.GetComponent<SpriteRenderer>().sortingOrder = rend.sortingOrder;
         
-        //turn off the brief stuff
-        isViolationChoice.SetActive(false);
-        protocolViolation1.SetActive(false);
-        protocolViolation2.SetActive(false);
-        protocolViolation3.SetActive(false);
-        judgeButton.SetActive(false);
+
     }
-    
-    
-    
+
+
+
 }

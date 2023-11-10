@@ -316,22 +316,26 @@ public class GameManager : MonoBehaviour
             else
             {
                 Debug.Log("You make a boo-boo!");
-                
-                //turn off the newspaper text
-                InputManager.instance.ShowNewspaperText(false);
-                
-                //and show the self criticism page
-                InputManager.instance.selfCriticism.SetActive(true);
-
+                //give player the self-criticism page
+                SelfCriticism();
             }
         }
         //if player's yes no already doesn't match
         else
         {
-            //TODO: make a punishment sheet
+            SelfCriticism();
             Debug.Log("You make a boo-boo!");
         }
         
+    }
+
+    void SelfCriticism()
+    {
+        //turn off the newspaper text
+        InputManager.instance.ShowNewspaperText(false);
+                
+        //and show the self criticism page
+        InputManager.instance.selfCriticism.SetActive(true);
     }
     
 
