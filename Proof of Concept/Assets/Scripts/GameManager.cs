@@ -42,10 +42,11 @@ public class GameManager : MonoBehaviour
     public bool apologyCorrect1, apologyCorrect2, apologyCorrect0;
     //check if player has made a mistake
     bool wrongAnswer;
-    
+    public TextMeshProUGUI warningText, copyText;
+    public TMP_InputField inputText;
+
     //control when phone rings and which phone text should show
     int phoneTurn = 0;
-    public AudioClip phoneRing;
 
     public int PhoneTurn
     {
@@ -318,6 +319,9 @@ public class GameManager : MonoBehaviour
 
     public void JudgeButton()
     {
+        //clear desk and leave nothing but self criticism page
+        InputManager.instance.ClearDesk();
+        
         string playerAnswerDebug = "";
         //choice_Violation.ToString().Trim();
 
@@ -367,14 +371,16 @@ public class GameManager : MonoBehaviour
         //check what protocol related mistakes player made
         PlayerMistake();
         
-        //move to the criticism scene (sceneNum = 1)
-        ChangeScene(1);
+        //leave nothing but the cup and self criticism on the desk
+        InputManager.instance.ClearDesk();
+        InputManager.instance.ShowSelfCriticism(true);
+
 
     }
 
     void PlayerMistake()
     {
-                
+
         //if there is news violation and player thinks there aren't
         if (answer_YesNo && choice_YesNo == false)
         {
@@ -407,7 +413,45 @@ public class GameManager : MonoBehaviour
             }
         }
         
+        //replace the <MistakeText> with the violation warning text.
+        warningText.text = warningText.text.Replace("<MistakeText>", replaceText);
+        
     }
+    
+    public void SubmitButton()
+    {
+        //check if player's input text is exactly same as what we tell them to copy
+        if (copyText.text == inputText.text)
+        {
+            Debug.Log("Player typed in the exact same text!");
+            //if it's the first (0) piece of news
+            if (CurrentNewsFile == 0)
+            {
+                //the first apology correct bool (0) is true
+                apologyCorrect0 = true;
+            }
+            else if (CurrentNewsFile == 1)
+            {
+                apologyCorrect1 = true;
+            }
+            else if (CurrentNewsFile == 2)
+            {
+                apologyCorrect2 = true;
+            }
+        }
+        else
+        {
+            Debug.Log("Player typed in different text!");
+        }
+
+        //when we go back, we are going to load the new file
+        CurrentNewsFile++;
+        //close the page
+        InputManager.instance.ShowSelfCriticism(false);
+        InputManager.instance.ResetDesk();
+
+    }
+
 
     bool MissingProtocol(int chosenProtocol)
     {

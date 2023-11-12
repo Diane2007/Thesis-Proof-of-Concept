@@ -48,6 +48,9 @@ public class CriticismScript : MonoBehaviour
 
         //when we go back, we are going to load the new file
         GameManager.instance.CurrentNewsFile++;
+        
+        //reset the desk
+        InputManager.instance.ResetDesk();
 
         //move back to main scene
         GameManager.instance.ChangeScene(0);
