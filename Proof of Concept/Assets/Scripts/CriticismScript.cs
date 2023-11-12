@@ -25,6 +25,7 @@ public class CriticismScript : MonoBehaviour
         //check if player's input text is exactly same as what we tell them to copy
         if (copyText.text == inputText.text)
         {
+            Debug.Log("Player typed in the exact same text!");
             //if it's the first (0) piece of news
             if (GameManager.instance.CurrentNewsFile == 0)
             {
@@ -39,6 +40,10 @@ public class CriticismScript : MonoBehaviour
             {
                 GameManager.instance.apologyCorrect2 = true;
             }
+        }
+        else
+        {
+            Debug.Log("Player typed in different text!");
         }
 
         //when we go back, we are going to load the new file

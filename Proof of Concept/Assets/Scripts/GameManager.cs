@@ -43,6 +43,20 @@ public class GameManager : MonoBehaviour
     //check if player has made a mistake
     bool wrongAnswer;
     
+    //control when phone rings and which phone text should show
+    int phoneTurn = 0;
+    public AudioClip phoneRing;
+
+    public int PhoneTurn
+    {
+        get { return phoneTurn; }
+        set
+        {
+            phoneTurn = value;
+            phoneTurn++;
+        }
+    }
+    
     void Awake()
     {
         if (!instance)
@@ -420,6 +434,13 @@ public class GameManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    void PickUpPhone()
+    {
+        
+        //go to the phone scene for convo
+        ChangeScene(2);
     }
 
 }
