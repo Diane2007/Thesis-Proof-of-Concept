@@ -47,8 +47,7 @@ public class InputManager : MonoBehaviour
     //self criticism and phone
     [Header("Self-Criticism")] public GameObject inputField;
     public GameObject selfCriticismPage,warningText, copyText, submitButton;
-    
-    
+
 
     //set main camera before game starts
     void Awake()
@@ -73,8 +72,7 @@ public class InputManager : MonoBehaviour
         //phoneCol = phone.GetComponent<Collider2D>();
         binderCol = closedBinder.GetComponent<Collider2D>();
         
-        //don't show self-criticism
-        //selfCriticism.SetActive(false);
+
     }
 
     //check we are clicking a game object

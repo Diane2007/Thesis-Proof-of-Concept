@@ -45,6 +45,13 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI warningText, copyText;
     public TMP_InputField inputText;
 
+    [Header("Phone related")] public GameObject phone;
+    public GameObject dialogueBox;
+    int convoLine = 0;
+    public TextMeshProUGUI phoneText;
+    //checking if we are having convo with florian
+    bool isTalking;
+
     //control when phone rings and which phone text should show
     int phoneTurn = 0;
 
@@ -88,6 +95,10 @@ public class GameManager : MonoBehaviour
     {
         //these things shouldn't appear at game start
         InputManager.instance.CloseAll();
+        phone.SetActive(false);
+        dialogueBox.SetActive(false);
+        phoneText.text = "";
+        
         //and don't show the special protocol text
         specialProtocolText.text = "";
         
@@ -106,6 +117,10 @@ public class GameManager : MonoBehaviour
 
         //now load the first newspaper
         LoadNews();
+        
+        //phone rings
+        Invoke("PickUpPhone", 2);
+        
     }
 
     int currentNewsFile = 0;
@@ -482,9 +497,89 @@ public class GameManager : MonoBehaviour
 
     void PickUpPhone()
     {
+        //phone rings
+        GetComponent<AudioSource>().Play();
         
-        //go to the phone scene for convo
-        ChangeScene(2);
+        Invoke("ShowPhoneAndDialogue", 2);
+        
+    }
+
+    void ShowPhoneAndDialogue()
+    {
+        //show nothing but the tea cup
+        InputManager.instance.ClearDesk();
+        
+        //show the phone
+        phone.SetActive(true);
+        isTalking = true;
+    }
+
+    void Update()
+    {
+        //if we've started talking with Florian
+        if (isTalking)
+        {
+            //when player left clicks
+            if (Input.GetMouseButtonDown(0))
+            {
+                //if the phone is ringing, stop it
+                if (GetComponent<AudioSource>().isPlaying)
+                {
+                    GetComponent<AudioSource>().Stop();
+                }
+                //show the dialogue box
+                dialogueBox.SetActive(true);
+                
+                //start running the dialogue lines
+                NextLine();
+                convoLine++;
+            }
+        }
+    }
+
+    void NextLine()
+    {
+        //the first interaction with Florian
+        if (phoneTurn == 0)
+        {
+            switch (convoLine)
+            {
+                case 0:
+                    phoneText.text = "Good morning, censor!";
+                    break;
+                case 1:
+                    phoneText.text = "Obviously you remember me. We went to the same high school!";
+                    break;
+                case 2:
+                    phoneText.text =
+                        "And yes, I did bully you back then, but we all are past adolescence, and no harm was done anyway!";
+                    break;
+                case 3:
+                    phoneText.text =
+                        "I am calling to inform you that I will be your manager, starting today.";
+                    break;
+                case 4:
+                    phoneText.text = "You'd better not hold any grudges.";
+                    break;
+                case 5:
+                    phoneText.text =
+                        "You don't have parents who could arrange and keep a high position for you in the government.";
+                    //stop the convo
+                    break;
+                case 6:
+                    phoneText.text = "Now, get back to work.";
+                    break;
+                case 7:
+                    //reset the desk and get back to work
+                    phone.SetActive(false);
+                    dialogueBox.SetActive(false);
+                    InputManager.instance.ResetDesk();
+                    //the next time convo happens, it is the second time we talk to Florian
+                    phoneTurn++;
+                    break;
+                
+            }
+        }
     }
 
 }
