@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEngine.SceneManagement;
 
 
@@ -18,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     //load text stuff
     const string TEXT_NAME = "textNum.txt";
-    const string TEXT_DIR = "/Resources/Texts/";
+    const string TEXT_DIR = "/Data/Texts/";
     string TEXT_PATH;
     string newTextPath;
 
@@ -26,7 +25,7 @@ public class GameManager : MonoBehaviour
     string[] fileLines;
     
     //check if there is a special protocol
-    bool specialProtocolExists = false;
+    //bool specialProtocolExists = false;
     
     //answer and player choice related variables
     List<int> choice_Violation, answer_Violation;
@@ -43,7 +42,7 @@ public class GameManager : MonoBehaviour
     //if player copies exactly as is, these bools are true each time
     public bool apologyCorrect1, apologyCorrect2, apologyCorrect0;
     //check if player has made a mistake
-    bool wrongAnswer;
+    //bool wrongAnswer;
     public TextMeshProUGUI warningText, copyText;
     public TMP_InputField inputText;
 
@@ -121,7 +120,7 @@ public class GameManager : MonoBehaviour
         LoadNews();
         
         //phone rings
-        Invoke("PickUpPhone", 2);
+        PickUpPhone();
         
     }
 
@@ -162,7 +161,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                ChangeScene(3);
+                ChangeScene(2);
             }
         }
     }
@@ -400,7 +399,7 @@ public class GameManager : MonoBehaviour
     void SelfCriticism()
     {
         //indicate player has made a wrong answer
-        wrongAnswer = true;
+        //wrongAnswer = true;
         
         //check what protocol related mistakes player made
         PlayerMistake();
