@@ -1,5 +1,6 @@
-# FILL IN INFO ABOUT YOUR GAME HERE. 
+# SILENCER: PROOF OF CONCEPT
 
-DO NOT LEAVE IT LIKE THIS!!!
-
-Please? Please, give me content. I'm begging you. It's not that hard. Thanks.
+A day in life of a news censor.
+Laundry list:
+1. find a way to compare choice_Violation and answer_Violation.
+2. try to understand why the original code did not build but the new one did...
