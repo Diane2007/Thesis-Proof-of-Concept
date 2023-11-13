@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class GameManager : MonoBehaviour
@@ -17,9 +18,10 @@ public class GameManager : MonoBehaviour
 
     //load text stuff
     const string TEXT_NAME = "textNum.txt";
-    const string TEXT_DIR = "/Data/Texts/";
+    const string TEXT_DIR = "/Resources/";
     string TEXT_PATH;
     string newTextPath;
+    TextAsset readNewsFile;
 
     //int lineIndex = 0;
     string[] fileLines;
@@ -107,7 +109,8 @@ public class GameManager : MonoBehaviour
         newsCount = 3;
         
         //init file path
-        TEXT_PATH = Application.dataPath + TEXT_DIR + TEXT_NAME;
+        //TEXT_PATH = Application.dataPath + TEXT_DIR + TEXT_NAME;
+        
         
         //clear all text at scene starts
         ClearNews();
@@ -169,10 +172,14 @@ public class GameManager : MonoBehaviour
     void LoadNews()
     {
         //init the new file path
-        newTextPath = TEXT_PATH.Replace("Num", currentNewsFile + "");
-        
+        newTextPath = "textNum".Replace("Num", currentNewsFile + "");
+        //newTextPath = TEXT_PATH.Replace("Num", currentNewsFile + "");
+        readNewsFile = Resources.Load(newTextPath) as TextAsset;
+
+
         //put each line of that text file into one array
-        fileLines = File.ReadAllLines(newTextPath);
+        //fileLines = File.ReadAllLines(newTextPath);
+        fileLines = readNewsFile.text.Split('\n');
 
         //and show the news text
         ShowNewsText();
