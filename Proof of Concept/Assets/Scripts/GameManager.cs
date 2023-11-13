@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     
     //connect the dropdown menus here
     [Header("Dropdown Menus")] public TMP_Dropdown boolDropdown;
-    public TMP_Dropdown protocolDropdown1, protocolDropdown2, protocolDropdown3;
+    //public TMP_Dropdown protocolDropdown1, protocolDropdown2, protocolDropdown3;
 
     //Self-Criticism related stuff
     [Header("Self-Criticism Page")] public string replaceText;
@@ -97,12 +97,12 @@ public class GameManager : MonoBehaviour
     {
         //these things shouldn't appear at game start
         InputManager.instance.CloseAll();
-        //phone.SetActive(false);
+        phone.SetActive(false);
         dialogueBox.SetActive(false);
         phoneText.text = "";
         
         //and don't show the special protocol text
-        specialProtocolText.text = "";
+        specialProtocolText.text = "Any news relating to Florian Wilman's alleged sexual assault must be censored.";
         
         //right now we have a news count of 3.
         newsCount = 3;
@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
         LoadNews();
         
         //phone rings
-        //Invoke("PickUpPhone", 2);
+        Invoke("PickUpPhone", 2);
         
     }
 
@@ -137,6 +137,14 @@ public class GameManager : MonoBehaviour
             choice_Violation.Clear();
             
             currentNewsFile = value;
+            
+            //phone rings when:
+            //1- player just starts reading the first news, this function is achieved in Start()
+            //2- after player just starts reading the third news. this function is achieved here.
+            if (currentNewsFile == 2)
+            {
+                PickUpPhone();
+            }
             
             //we only have this many news every day, so this is to ensure we only load this much
             if (currentNewsFile < newsCount)
@@ -154,7 +162,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("No more news today!");
+                ChangeScene(3);
             }
         }
     }
@@ -273,6 +281,7 @@ public class GameManager : MonoBehaviour
 
     }
     
+    /*
     public void ProtocolMenuControl()
     {
         int protocolChoice1 = protocolDropdown1.value;
@@ -340,6 +349,7 @@ public class GameManager : MonoBehaviour
         debugProtocolChoice = "" + protocolChoice1 + protocolChoice2 + protocolChoice3;
 
     }
+    */
 
     public void JudgeButton()
     {
@@ -358,17 +368,18 @@ public class GameManager : MonoBehaviour
         //start checking if the protocol numbers match as well
         if (answer_YesNo == choice_YesNo)
         {
-            if (areEqual)
-            {
-                CurrentNewsFile++;
-            }
-            else
-            {
-                Debug.Log("Protocol number doesn't match");
-                //give player the self-criticism page
-                //Debug.Log("Player chose protocols: " + debugProtocolChoice);
-                SelfCriticism();
-            }
+            // if (areEqual)
+            // {
+            //     CurrentNewsFile++;
+            // }
+            // else
+            // {
+            //     Debug.Log("Protocol number doesn't match");
+            //     //give player the self-criticism page
+            //     //Debug.Log("Player chose protocols: " + debugProtocolChoice);
+            //     SelfCriticism();
+            // }
+            CurrentNewsFile++;
 
         }
         //if player's yes no already doesn't match
@@ -417,25 +428,25 @@ public class GameManager : MonoBehaviour
 
         //check each answer in choice_Violation against the list of answer_Violation
         //and see if player chose a wrong protocol
-        for (int i = 0; i < choice_Violation.Count; i++)
-        {
-            if (!answer_Violation.Contains(choice_Violation[i]))
-            {
-                int wrongProtocol = i + 1;
-                replaceText += "Protocol " + wrongProtocol + " was not violated. ";
-            }
-        }
+        // for (int i = 0; i < choice_Violation.Count; i++)
+        // {
+        //     if (!answer_Violation.Contains(choice_Violation[i]))
+        //     {
+        //         int wrongProtocol = i + 1;
+        //         replaceText += "Protocol " + wrongProtocol + " was not violated. ";
+        //     }
+        // }
 
         //check each answer in answer_Violation against the list of choice_violation
         //And see if player missed any protocols
-        for (int i = 0; i < answer_Violation.Count; i++)
-        {
-            if (!choice_Violation.Contains(answer_Violation[i]))
-            {
-                int missedProtocol = i + 1;
-                replaceText += "Protocol " + missedProtocol + " was violated. ";
-            }
-        }
+        // for (int i = 0; i < answer_Violation.Count; i++)
+        // {
+        //     if (!choice_Violation.Contains(answer_Violation[i]))
+        //     {
+        //         int missedProtocol = i + 1;
+        //         replaceText += "Protocol " + missedProtocol + " was violated. ";
+        //     }
+        // }
         
         
         //check if player missed any protocol violation
@@ -531,17 +542,17 @@ public class GameManager : MonoBehaviour
         //phone rings
         GetComponent<AudioSource>().Play();
         
-        Invoke("ShowPhoneAndDialogue", 2);
+        Invoke("ShowDialogue", 2);
         
     }
 
-    void ShowPhoneAndDialogue()
+    void ShowDialogue()
     {
         //show nothing but the tea cup
         InputManager.instance.ClearDesk();
         
         //show the phone
-        //phone.SetActive(true);
+        phone.SetActive(true);
         isTalking = true;
     }
 
@@ -602,13 +613,43 @@ public class GameManager : MonoBehaviour
                     break;
                 case 7:
                     //reset the desk and get back to work
-                    //phone.SetActive(false);
+                    phone.SetActive(false);
                     dialogueBox.SetActive(false);
                     InputManager.instance.ResetDesk();
+                    isTalking = false;
                     //the next time convo happens, it is the second time we talk to Florian
                     phoneTurn++;
+                    convoLine = -1;
                     break;
                 
+            }
+        }
+        else if (phoneTurn == 1)
+        {
+            switch (convoLine)
+            {
+                case 0:
+                    phoneText.text = "Just forgot to mention...";
+                    break;
+                case 1:
+                    phoneText.text = "You probably heard some rumors of my cousin, Declan Denis.";
+                    break;
+                case 2:
+                    phoneText.text = "Keep an eye on those articles, will ya?";
+                    break;
+                case 3:
+                    phoneText.text = "Those newspaper people need to know who really is in charge.";
+                    break;
+                case 4:
+                    //reset the desk and get back to work
+                    phone.SetActive(false);
+                    dialogueBox.SetActive(false);
+                    InputManager.instance.ResetDesk();
+                    specialProtocolText.text =
+                        "Any news relating to Florian Wilman's alleged sexual assault must be censored.";
+                    isTalking = false;
+                    convoLine = 0;
+                    break;
             }
         }
     }

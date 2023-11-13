@@ -29,7 +29,8 @@ public class InputManager : MonoBehaviour
     public GameObject newsTitle, newsSubtitle, newsText, newsName, newsPages;
 
     [Header("Brief Stuff")] public GameObject isViolationChoice;
-    public GameObject protocolViolation1, protocolViolation2, protocolViolation3, judgeButton;
+    //public GameObject protocolViolation1, protocolViolation2, protocolViolation3
+    public GameObject judgeButton;
 
     //I know it's crazy man but here are the handbook buttons
     [Header("Handbook Buttons")] public GameObject protocolButtonLeft;
@@ -131,6 +132,7 @@ public class InputManager : MonoBehaviour
             closedBinder.SetActive(false);
             ShowProtocol(true);
             
+            
         }
 
         //if player clicks on the brief, bring it to front
@@ -148,9 +150,9 @@ public class InputManager : MonoBehaviour
             
             //when brief is at the front, show brief ui stuff
             isViolationChoice.SetActive(true);
-            protocolViolation1.SetActive(true);
-            protocolViolation2.SetActive(true);
-            protocolViolation3.SetActive(true);
+            // protocolViolation1.SetActive(true);
+            // protocolViolation2.SetActive(true);
+            // protocolViolation3.SetActive(true);
             judgeButton.SetActive(true);
         }
 
@@ -232,9 +234,9 @@ public class InputManager : MonoBehaviour
         //brief related
         smallBrief.SetActive(false);
         judgeButton.SetActive(false);
-        protocolViolation1.SetActive(false);
-        protocolViolation2.SetActive(false);
-        protocolViolation3.SetActive(false);
+        // protocolViolation1.SetActive(false);
+        // protocolViolation2.SetActive(false);
+        // protocolViolation3.SetActive(false);
         isViolationChoice.SetActive(false);
         
     }
@@ -257,13 +259,18 @@ public class InputManager : MonoBehaviour
             
             //show the protocol page and text
             protocols.SetActive(true);
-            specialProtocol.SetActive(true);
 
             //show the protocol page buttons
             closeButton.SetActive(true);
             protocolButtonLeft.SetActive(true);
             newspaperButtonRight.SetActive(true);
             officialButtonRight.SetActive(true);
+            
+            //if we've talked to Florian for the second time, show special protocol
+            if (GameManager.instance.PhoneTurn == 1)
+            {
+                specialProtocol.SetActive(true);
+            }
         }
         //turn off the protocol page
         else
@@ -277,6 +284,7 @@ public class InputManager : MonoBehaviour
             protocolButtonLeft.SetActive(false);
             newspaperButtonRight.SetActive(false);
             officialButtonRight.SetActive(false);
+
         }
     }
 
@@ -374,9 +382,9 @@ public class InputManager : MonoBehaviour
         //show the small brief!
         smallBrief.SetActive(true);
         isViolationChoice.SetActive(true);
-        protocolViolation1.SetActive(true);
-        protocolViolation2.SetActive(true);
-        protocolViolation3.SetActive(true);
+        // protocolViolation1.SetActive(true);
+        // protocolViolation2.SetActive(true);
+        // protocolViolation3.SetActive(true);
     }
 
     public void ShowSelfCriticism(bool state)
