@@ -92,12 +92,12 @@ public class InputManager : MonoBehaviour
         //if player isn't clicking on a collider, do nothing
         if (!rayHit.collider)
         {
-            Debug.Log("Not clicking on any collider!");
+            //Debug.Log("Not clicking on any collider!");
             return;
         }
         //show the object name in console
         rayHitName = rayHit.collider.gameObject.name;
-        Debug.Log(rayHitName);
+        //Debug.Log(rayHitName);
         DocumentControl();
 
     }

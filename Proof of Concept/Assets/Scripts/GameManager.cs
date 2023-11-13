@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     //answer and player choice related variables
     List<int> choice_Violation, answer_Violation;
     bool choice_YesNo, answer_YesNo;
+    string debugProtocolChoice;
+    bool areEqual;
     
     //connect the dropdown menus here
     [Header("Dropdown Menus")] public TMP_Dropdown boolDropdown;
@@ -95,7 +97,7 @@ public class GameManager : MonoBehaviour
     {
         //these things shouldn't appear at game start
         InputManager.instance.CloseAll();
-        phone.SetActive(false);
+        //phone.SetActive(false);
         dialogueBox.SetActive(false);
         phoneText.text = "";
         
@@ -119,7 +121,7 @@ public class GameManager : MonoBehaviour
         LoadNews();
         
         //phone rings
-        Invoke("PickUpPhone", 2);
+        //Invoke("PickUpPhone", 2);
         
     }
 
@@ -130,11 +132,16 @@ public class GameManager : MonoBehaviour
         get { return currentNewsFile; }
         set
         {
+            //reset the two lists before each news starts
+            answer_Violation.Clear();
+            choice_Violation.Clear();
+            
             currentNewsFile = value;
             
             //we only have this many news every day, so this is to ensure we only load this much
             if (currentNewsFile < newsCount)
             {
+                Debug.Log("Current news number:" + currentNewsFile);
                 //reset player answer's bool and list
                 choice_Violation.Clear();
                 choice_YesNo = false;
@@ -216,7 +223,7 @@ public class GameManager : MonoBehaviour
                 {
                     answer_YesNo = false;
                 }
-                Debug.Log("Protocol violation in this article? " + answer_YesNo);
+                //Debug.Log("Protocol violation in this article? " + answer_YesNo);
             }
             //line 8 is the protocols this news violated (if there is violation)
             else if (lineNum == 7)
@@ -256,11 +263,11 @@ public class GameManager : MonoBehaviour
         {
             case 0: //text is no
                 choice_YesNo = false;
-                Debug.Log("Player thinks if there is violation: " + choice_YesNo);
+                //Debug.Log("Player thinks if there is violation: " + choice_YesNo);
                 break;
             case 1: //text is yes
                 choice_YesNo = true;
-                Debug.Log("Player thinks if there is violation: " + choice_YesNo);
+                //Debug.Log("Player thinks if there is violation: " + choice_YesNo);
                 break;
         }
 
@@ -330,13 +337,12 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
+        debugProtocolChoice = "" + protocolChoice1 + protocolChoice2 + protocolChoice3;
+
     }
 
     public void JudgeButton()
     {
-        //clear desk and leave nothing but self criticism page
-        InputManager.instance.ClearDesk();
-        
         string playerAnswerDebug = "";
         //choice_Violation.ToString().Trim();
 
@@ -345,28 +351,30 @@ public class GameManager : MonoBehaviour
             playerAnswerDebug += choice_Violation[i].ToString();
         }
         Debug.Log("Player choice -- Is violation? " + choice_YesNo + " Violation code is: " + playerAnswerDebug);
-        
+
+        areEqual = choice_Violation.OrderBy(x => x).SequenceEqual(answer_Violation.OrderBy(x => x));
 
         //if the yes no player choice matches our answer
         //start checking if the protocol numbers match as well
         if (answer_YesNo == choice_YesNo)
         {
-            //if the protocol numbers are correct, regardless the order
-            if (choice_Violation.OrderBy(x => x).SequenceEqual(answer_Violation.OrderBy(x => x)))
+            if (areEqual)
             {
-                CurrentNewsFile++;  //load next news
+                CurrentNewsFile++;
             }
             else
             {
-                Debug.Log("You make a boo-boo!");
+                Debug.Log("Protocol number doesn't match");
                 //give player the self-criticism page
+                //Debug.Log("Player chose protocols: " + debugProtocolChoice);
                 SelfCriticism();
             }
+
         }
         //if player's yes no already doesn't match
         else
         {
-            Debug.Log("You made a boo-boo!");
+            Debug.Log("IsViolation doesn't match");
             SelfCriticism();
         }
         
@@ -397,7 +405,7 @@ public class GameManager : MonoBehaviour
     {
 
         //if there is news violation and player thinks there aren't
-        if (answer_YesNo && choice_YesNo == false)
+        if (answer_YesNo && !choice_YesNo)
         {
             replaceText += "The news article contains violations.\n";
         }
@@ -406,27 +414,49 @@ public class GameManager : MonoBehaviour
         {
             replaceText += "The news article does not contain violations.\n";
         }
-        //check if player missed any protocol violation
-        for (int i = 0; i < answer_Violation.Count; i++)
-        {
-            if (MissingProtocol(i))
-            {
-                replaceText += "Protocol " + i + " was violated. ";
-                //stop the code from repeating the line above
-                break;
-            } 
-        }
 
-        //check if player thought a protocol is violated but it didn't
+        //check each answer in choice_Violation against the list of answer_Violation
+        //and see if player chose a wrong protocol
         for (int i = 0; i < choice_Violation.Count; i++)
         {
-            if (WrongProtocol(i))
+            if (!answer_Violation.Contains(choice_Violation[i]))
             {
-                replaceText += "Protocol " + i + " was not violated. ";
-                //don't repeat the line above
-                break;
+                int wrongProtocol = i + 1;
+                replaceText += "Protocol " + wrongProtocol + " was not violated. ";
             }
         }
+
+        //check each answer in answer_Violation against the list of choice_violation
+        //And see if player missed any protocols
+        for (int i = 0; i < answer_Violation.Count; i++)
+        {
+            if (!choice_Violation.Contains(answer_Violation[i]))
+            {
+                int missedProtocol = i + 1;
+                replaceText += "Protocol " + missedProtocol + " was violated. ";
+            }
+        }
+        
+        
+        //check if player missed any protocol violation
+        // for (int i = 0; i < answer_Violation.Count; i++)
+        // {
+        //
+        //     if (MissingProtocol(i))
+        //     {
+        //         replaceText += "Protocol " + i + " was violated. ";
+        //
+        //     } 
+        // }
+        //
+        // //check if player thought a protocol is violated but it didn't
+        // for (int i = 0; i < choice_Violation.Count; i++)
+        // {
+        //     if (WrongProtocol(i))
+        //     {
+        //         replaceText += "Protocol " + i + " was not violated. ";
+        //     }
+        // }
         
         //replace the <MistakeText> with the violation warning text.
         warningText.text = warningText.text.Replace("<MistakeText>", replaceText);
@@ -464,36 +494,37 @@ public class GameManager : MonoBehaviour
         //close the page
         InputManager.instance.ShowSelfCriticism(false);
         InputManager.instance.ResetDesk();
+        
 
     }
 
 
-    bool MissingProtocol(int chosenProtocol)
-    {
-        //player didn't identify protocol breach
-        if (!choice_Violation.Contains(chosenProtocol) && answer_Violation.Contains(chosenProtocol))
-        {
-            return true;
-        }
-        //player did identify protocol breach
-        else if (choice_Violation.Contains(chosenProtocol) && answer_Violation.Contains(chosenProtocol))
-        {
-            return false;
-        }
-
-        return false;
-    }
-
-    bool WrongProtocol(int chosenProtocol)
-    {
-        //player chose a wrong protocol
-        if (choice_Violation.Contains(chosenProtocol) && !answer_Violation.Contains(chosenProtocol))
-        {
-            return true;
-        }
-
-        return false;
-    }
+    // bool MissingProtocol(int chosenProtocol)
+    // {
+    //     //player didn't identify protocol breach
+    //     if (!choice_Violation.Contains(chosenProtocol) && answer_Violation.Contains(chosenProtocol))
+    //     {
+    //         return true;
+    //     }
+    //     //player did identify protocol breach
+    //     else if (choice_Violation.Contains(chosenProtocol) && answer_Violation.Contains(chosenProtocol))
+    //     {
+    //         return false;
+    //     }
+    //
+    //     return false;
+    // }
+    //
+    // bool WrongProtocol(int chosenProtocol)
+    // {
+    //     //player chose a wrong protocol
+    //     if (choice_Violation.Contains(chosenProtocol) && !answer_Violation.Contains(chosenProtocol))
+    //     {
+    //         return true;
+    //     }
+    //
+    //     return false;
+    // }
 
     void PickUpPhone()
     {
@@ -510,7 +541,7 @@ public class GameManager : MonoBehaviour
         InputManager.instance.ClearDesk();
         
         //show the phone
-        phone.SetActive(true);
+        //phone.SetActive(true);
         isTalking = true;
     }
 
@@ -571,7 +602,7 @@ public class GameManager : MonoBehaviour
                     break;
                 case 7:
                     //reset the desk and get back to work
-                    phone.SetActive(false);
+                    //phone.SetActive(false);
                     dialogueBox.SetActive(false);
                     InputManager.instance.ResetDesk();
                     //the next time convo happens, it is the second time we talk to Florian

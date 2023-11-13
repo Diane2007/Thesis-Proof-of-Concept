@@ -949,7 +949,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2122191056}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CriticismScript, Assembly-CSharp
         m_MethodName: SubmitButton
         m_Mode: 1
@@ -1486,7 +1486,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2122191057}
-  - component: {fileID: 2122191056}
   m_Layer: 0
   m_Name: CriticismScriptHolder
   m_TagString: Untagged
@@ -1494,21 +1493,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2122191056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2122191055}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b27cff6f7ae5d47e0a7b5b8f6e336a53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  warningText: {fileID: 387600994}
-  copyText: {fileID: 534999190}
-  inputText: {fileID: 888635594}
 --- !u!4 &2122191057
 Transform:
   m_ObjectHideFlags: 0
